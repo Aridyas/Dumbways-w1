@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="content">
+    <meta name="author" content="yourname">
+    <title>Web title</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <head>
+        <nav class="flex flex-row justify-between w-full h-auto py-4 px-8">
+            <div class="flex justify-center items-center gap-2">
+                <i data-lucide="hexagon"></i>
+                <span><h2 class="text-xl">HEXAGON</h2></span>
+            </div>
+            <a href="index.html" target="_self" class="py-3 px-6 bg-black rounded-full text-white mr-4">Home</a>
+        </nav>
+    </head>
+    <main class="flex justify-center items-center w-screen h-auto bg-gray-300 p-20">
+        <div class="flex flex-col bg-gray-100 h-auto p-16 gap-16 rounded-2xl">
+            <h2 class="text-4xl">LET'S GET IN TOUCH!</h2>
+            <form class="flex flex-col gap-8">
+                <input class="h-12 text-xl rounded-2xl p-4 shadow-sm shadow-black/30" type="text" placeholder="Name">
+                <input class="h-12 text-xl rounded-2xl p-4 shadow-sm shadow-black/30" type="email" placeholder="Email">
+                <input class="h-12 text-xl rounded-2xl p-4 shadow-sm shadow-black/30" type="text" placeholder="Phone Number">
+                <div
+                    id="dropdown"
+                    class="flex relative flex-col justify-center items-start w-full h-12 bg-white rounded-2xl text-xl p-4 text-gray-400 shadow-sm shadow-black/30">
+                    <span id="dropdown-label" class="text-gray-400">Subject</span>
+                    <ul id="options" class="absolute hidden translate-y-24 -translate-x-4 w-full">
+                        <li class="w-full h-12 bg-white px-3 py-2 hover:bg-gray-100 cursor-pointer" data-value="Subject 1">Subject 1</li>
+                        <li class="w-full h-12 bg-white px-3 py-2 hover:bg-gray-100 cursor-pointer" data-value="Subject 2">Subject 2</li>
+                        <li class="w-full h-12 bg-white px-3 py-2 hover:bg-gray-100 cursor-pointer" data-value="Subject 3">Subject 3</li>
+                    </ul>
+                </div>
+                <textarea class="h-48 text-xl rounded-2xl p-4 shadow-sm shadow-black/30" type="text" placeholder="Your Message"></textarea>
+                <button class="bg-black text-white p-2 rounded-full" type="submit">Submit</button>
+            </form>
+        </div>
+    </main>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+    <script>
+        const dropdown = document.getElementById("dropdown");
+        const options = document.getElementById("options");
+        const droplabel = document.getElementById("dropdown-label")
+
+        dropdown.addEventListener("click", () => {
+            options.classList.toggle("hidden");
+        });
+
+        options.querySelectorAll("li").forEach(li => {
+            li.addEventListener("click", () => {
+                droplabel.textContent = li.dataset.value;
+                options.classList.add("hidden");
+                options.classList.toggle("hidden");
+            });
+        }) ;
+
+        document.addEventListener("click", (e) => {
+            if (!dropdown.contains(e.target)) {
+                options.classList.add("hidden");
+            }
+        });
+    </script>
+</body>
+</html>

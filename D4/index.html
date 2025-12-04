@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web title</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-gray-300">
+    <header>
+        <nav class="flex flex-row justify-between w-full h-auto py-4 px-8 bg-white">
+            <div class="flex justify-center items-center gap-2">
+                <i data-lucide="hexagon"></i>
+                <span><h2 class="text-xl">HEXAGON</h2></span>
+            </div>
+            <a href="contact.html" target="_self" class="py-3 px-6 bg-black rounded-full text-white mr-4">Contact Me</a>
+        </nav>
+    </header>
+    <main class="flex w-screen min-h-screen">
+
+        <div id="sidemenu" class="w-0 flex overflow-hidden transition-all duration-300">
+            <div class="bg-white flex-1 p-4">
+                <div id="projectContainer" class="grid grid-cols-3 gap-4 w-full"></div>
+            </div>
+        </div>
+
+        <div class="flex justify-center items-center flex-1 p-24">
+            <div class="bg-white p-12 rounded-3xl w-full max-w-lg flex flex-col items-center">
+
+                <h2 class="text-3xl mb-8">ADD PROJECTS</h2>
+
+                <form class="flex flex-col gap-6 w-full">
+                    
+                    <div>
+                        <label>Project Name</label>
+                        <input id="projectName" class="w-full p-2 rounded-xl bg-gray-200 shadow-sm shadow-black/50" />
+                    </div>
+
+                    <div class="flex gap-4">
+                        <div class="w-full">
+                            <label>Start Date</label>
+                            <input id="startDate" type="date" class="w-full p-2 rounded-xl bg-gray-200 shadow-sm shadow-black/50" />
+                        </div>
+
+                        <div class="w-full">
+                            <label>End Date</label>
+                            <input id="endDate" type="date" class="w-full p-2 rounded-xl bg-gray-200 shadow-sm shadow-black/50" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label>Technologies</label>
+                        <div class="grid grid-cols-2 gap-2 bg-gray-200 p-3 rounded-xl shadow-sm shadow-black/50">
+                            <label><input id="tech-node" type="checkbox"> Node.js</label>
+                            <label><input id="tech-next" type="checkbox"> Next.js</label>
+                            <label><input id="tech-react" type="checkbox"> React.js</label>
+                            <label><input id="tech-ts" type="checkbox"> TypeScript</label>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label>Upload Image</label>
+                        <input id="fileUpload" type="file" class="w-full p-2 rounded-xl bg-gray-200 shadow-sm shadow-black/50" />
+                    </div>
+
+                    <button id="submit" type="submit" class="py-2 bg-gray-200 w-full rounded-full shadow-sm shadow-black/50">Submit</button>
+
+                    <button id="expand" type="button" class="py-2 bg-gray-200 w-full rounded-full shadow-sm shadow-black/50">Expand</button>
+
+                    <button id="clear" type="button" class="py-2 bg-red-200 w-full rounded-full shadow-sm shadow-black/50">Clear LocalStorage</button>
+                </form>
+
+            </div>
+        </div>
+
+    </main>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        lucide.createIcons();
+
+        document.getElementById("expand").onclick = (e) => {
+            e.preventDefault();
+            expand = !expand;
+
+            sidemenu.classList.remove(expand ? "w-0" : "w-full");
+            sidemenu.classList.add(expand ? "w-full" : "w-0");
+        };
+    </script>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-gray-300">
+
+<header>
+    <nav class="flex flex-row justify-between w-full h-auto py-4 px-8 bg-white">
+        <div class="flex justify-center items-center gap-2 ">
+            <i data-lucide="hexagon"></i>
+            <h2 class="text-xl">HEXAGON</h2>
+        </div>
+    </nav>
+</header>
+
+<main class="flex w-screen min-h-screen">
+    
+    <!--sidemenu-->
+    <div id="sidemenu" class="flex w-0 overflow-hidden transition-all duration-300">
+        <div class="bg-white flex-1 p-4">
+            <div id="projectContainer" class="grid grid-cols-3 gap-4 w-full"></div>
+        </div>
+    </div>
+
+    <!--form-->
+    <div class="flex justify-center items-center flex-1 p-24">
+        <div class="bg-white p-12 rounded-3xl w-full max-w-lg flex flex-col items-center">
+
+            <h2 class="text-3xl mb-8">ADD PROJECTS</h2>
+
+            <form id="createForm" class="flex flex-col gap-6 w-full">
+                
+                <div>
+                    <label>Project Name</label>
+                    <input id="projectName" class="w-full p-2 rounded-xl bg-gray-200 shadow-sm shadow-black/50" />
+                </div>
+
+                <div class="flex gap-4">
+                    <div class="w-full">
+                        <label>Start Date</label>
+                        <input id="startDate" type="date" class="w-full p-2 rounded-xl bg-gray-200 shadow-sm shadow-black/50" />
+                    </div>
+
+                    <div class="w-full">
+                        <label>End Date</label>
+                        <input id="endDate" type="date" class="w-full p-2 rounded-xl bg-gray-200 shadow-sm shadow-black/50" />
+                    </div>
+                </div>
+
+                <div>
+                    <label>Technologies</label>
+                    <div class="grid grid-cols-2 gap-2 bg-gray-200 p-3 rounded-xl shadow-sm shadow-black/50">
+                        <label><input id="tech-node" type="checkbox"> Node.js</label>
+                        <label><input id="tech-next" type="checkbox"> Next.js</label>
+                        <label><input id="tech-react" type="checkbox"> React.js</label>
+                        <label><input id="tech-ts" type="checkbox"> TypeScript</label>
+                    </div>
+                </div>
+
+                <div>
+                    <label>Upload Image</label>
+                    <input id="fileUpload" type="file" class="w-full p-2 rounded-xl bg-gray-200 shadow-sm shadow-black/50" />
+                </div>
+
+                <div>
+                    <label>Description</label>
+                    <textarea id="desc" type="text"
+                        class="flex w-full min-h-24 rounded-xl bg-gray-200 shadow-sm shadow-black/50 p-2"></textarea>
+                </div>
+
+                <button type="submit" class="py-2 bg-gray-200 w-full rounded-full shadow-sm shadow-black/50">Submit</button>
+                <button id="expand" type="button" class="py-2 bg-gray-200 w-full rounded-full shadow-sm shadow-black/50">Expand</button>
+                <button id="clear" type="button" class="py-2 bg-red-200 w-full rounded-full shadow-sm shadow-black/50">Clear LocalStorage</button>
+            </form>
+        </div>
+    </div>
+
+    <!--detail-->
+    <div id="details" class="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm hidden">
+        <div class="bg-white rounded-3xl shadow-lg p-8 flex gap-8 max-w-4xl w-[90%] relative">
+            <img id="detailsImage" class="w-72 h-72 object-cover rounded-xl" src=""/>
+
+            <div class="flex flex-col justify-between flex-1 min-w-0">
+                <div class="flex flex-col flex-wrap gap-4">
+                    <h2 id="detailsName" class="text-3xl font-bold"></h2>
+                    <p id="detailsDesc" class="text-gray-700 break-words"></p>
+                </div>
+
+                <div class="mt-4">
+                    <div id="detailsTech" class="flex flex-row flex-wrap gap-2 mb-2"></div>
+                    <h2 id="detailsDate" class="text-gray-600 text-sm"></h2>
+                </div>
+            </div>
+
+            <button onclick="toggleDetails()" class="absolute top-4 right-4 p-2 rounded-full bg-gray-300 hover:bg-gray-400 transition">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+    </div>
+
+    <!--edit-->
+    <div id="editPopup" class="fixed inset-0 hidden bg-black/40 backdrop-blur-sm flex justify-center items-center">
+        <div class="bg-white rounded-3xl shadow-lg p-8 w-[450px] relative flex flex-col gap-4">
+            <button onclick="toggleEdit()" class="absolute top-4 right-4 p-2 rounded-full bg-gray-300 hover:bg-gray-400 transition">
+                <i data-lucide="x"></i>
+            </button>
+
+            <h2 class="text-xl font-semibold">Edit Project</h2>
+
+            <input id="editName" class="p-2 bg-gray-200 rounded-lg" />
+            <input id="editStart" type="date" class="p-2 bg-gray-200 rounded-lg" />
+            <input id="editEnd" type="date" class="p-2 bg-gray-200 rounded-lg" />
+            <textarea id="editDesc" class="p-2 bg-gray-200 rounded-lg min-h-20"></textarea>
+
+            <button onclick="saveEdit()" class="p-3 bg-black text-white rounded-xl">Save Changes</button>
+        </div>
+    </div>
+
+    <div id="removalConfirm" class="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm hidden">
+        <div class="flex flex-col justify-center items-center bg-white rounded-3xl shadow-lg p-8 flex gap-8 max-w-4xl w-[30%] relative">
+            <h2 class="text-3xl">Remove Project?</h2>
+            <div class="flex gap-2">
+                <button id="removeConfirm" class="py-3 px-5 bg-black text-white rounded-full">Confirm</button>
+                <button onclick="toggleConfirm()" class="py-3 px-5 bg-black text-white rounded-full">Cancel</button>
+            </div>
+            <button onclick="toggleConfirm()" class="absolute top-4 right-4 p-2 rounded-full bg-gray-300 hover:bg-gray-400 transition">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+    </div>
+
+</main>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="script.js"></script>
+
+</body>
+</html>

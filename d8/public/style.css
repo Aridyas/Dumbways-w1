@@ -1,0 +1,49 @@
+@font-face {
+    font-family: 'h2font';
+    src: url('./Fonts/RobotoSlab-SemiBold.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'pfont';
+    src: url('./Fonts/OpenSans-Regular.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'qfont';
+    src: url('./Fonts/PlayfairDisplay-Italic.woff') format('woff');
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+p {
+    font-family: 'pfont';
+}
+
+h2 {
+    font-family: 'h2font';
+}
+
+q {
+    font-family: 'qfont';
+}
+
+label {
+    display: block;
+    font-family: 'pfont';
+}

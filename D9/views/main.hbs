@@ -6,7 +6,7 @@
     <title>Projects</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
 </head>
 
 <body class="bg-gray-300">
@@ -23,9 +23,39 @@
 <main class="flex w-screen min-h-screen">
     
     <!--sidemenu-->
-    <div id="sidemenu" class="flex w-0 overflow-hidden transition-all duration-300">
+    <div id="sidemenu" class="flex w-full overflow-hidden transition-all duration-300">
         <div class="bg-white flex-1 p-4">
-            <div id="projectContainer" class="grid grid-cols-3 gap-4 w-full"></div>
+            <div id="projectContainer" class="grid grid-cols-3 gap-4 w-full">
+
+                <!--cards-->
+                {{#each projects}}
+                    <div class="bg-white shadow p-3 rounded-xl flex flex-col gap-2 text-sm">
+
+                        {{#if image}}
+                            <img src="{{this.image}}" class="w-full h-40 object-cover rounded-lg">
+                        {{/if}}
+
+                        <p class="text-lg font-bold truncate">{{this.name}}</p>
+
+                        <div class="flex flex-row flex-wrap gap-1">
+                            {{#each this.techs}}
+                                <i data-lucide="{{this}}"></i>
+                            {{/each}}
+                        </div>
+
+                        <p class="text-xs text-gray-600">Start: {{this.start}} End: {{this.end}}</p>
+
+                        <div class="flex flex-row flex-wrap gap-1">
+                            <button onclick="location.href='/projects/edit/{{id}}" class="flex-1 bg-black rounded-xl text-white p-2">Edit</button>
+                            <button onclick="location.href='/projects/remove/{{id}}" class="flex-1 bg-black rounded-xl text-white p-2">Remove</button>
+                        </div>
+
+                        <button onclick="location.href='/projects/{{id}}" class="flex-1 bg-black rounded-xl text-white p-2">Details</button>
+                    </div>
+                {{/each}}
+                <!--cards-->
+
+            </div>
         </div>
     </div>
 
@@ -35,49 +65,51 @@
 
             <h2 class="text-3xl mb-8">ADD PROJECTS</h2>
 
-            <form id="createForm" class="flex flex-col gap-6 w-full">
+            <form id="createForm" action="/projects/add" 
+                method="post"
+                enctype="multipart/form-data"
+                class="flex flex-col gap-6 w-full"
+            >
                 
                 <div>
                     <label>Project Name</label>
-                    <input id="projectName" class="w-full p-2 rounded-xl bg-gray-200 shadow-sm shadow-black/50" />
+                    <input id="projectName" type="text" name="name" class="w-full p-2 rounded-xl bg-gray-200 shadow-sm shadow-black/50" />
                 </div>
 
                 <div class="flex gap-4">
                     <div class="w-full">
                         <label>Start Date</label>
-                        <input id="startDate" type="date" class="w-full p-2 rounded-xl bg-gray-200 shadow-sm shadow-black/50" />
+                        <input id="startDate" type="date" name="start" class="w-full p-2 rounded-xl bg-gray-200 shadow-sm shadow-black/50" />
                     </div>
 
                     <div class="w-full">
                         <label>End Date</label>
-                        <input id="endDate" type="date" class="w-full p-2 rounded-xl bg-gray-200 shadow-sm shadow-black/50" />
+                        <input id="endDate" type="date" name="end" class="w-full p-2 rounded-xl bg-gray-200 shadow-sm shadow-black/50" />
                     </div>
                 </div>
 
                 <div>
                     <label>Technologies</label>
                     <div class="grid grid-cols-2 gap-2 bg-gray-200 p-3 rounded-xl shadow-sm shadow-black/50">
-                        <label><input id="tech-node" type="checkbox"> Node.js</label>
-                        <label><input id="tech-next" type="checkbox"> Next.js</label>
-                        <label><input id="tech-react" type="checkbox"> React.js</label>
-                        <label><input id="tech-ts" type="checkbox"> TypeScript</label>
+                        <label><input id="tech-node" type="checkbox" name="techs" value="node"> Node.js</label>
+                        <label><input id="tech-next" type="checkbox" name="techs" value="next"> Next.js</label>
+                        <label><input id="tech-react" type="checkbox" name="techs" value="react"> React.js</label>
+                        <label><input id="tech-ts" type="checkbox" name="techs" value="ts"> TypeScript</label>
                     </div>
                 </div>
 
                 <div>
                     <label>Upload Image</label>
-                    <input id="fileUpload" type="file" class="w-full p-2 rounded-xl bg-gray-200 shadow-sm shadow-black/50" />
+                    <input id="fileUpload" type="file" name="image" class="w-full p-2 rounded-xl bg-gray-200 shadow-sm shadow-black/50" />
                 </div>
 
                 <div>
                     <label>Description</label>
-                    <textarea id="desc" type="text"
+                    <textarea id="desc" type="text" name="desc"
                         class="flex w-full min-h-24 rounded-xl bg-gray-200 shadow-sm shadow-black/50 p-2"></textarea>
                 </div>
 
                 <button type="submit" class="py-2 bg-gray-200 w-full rounded-full shadow-sm shadow-black/50">Submit</button>
-                <button id="expand" type="button" class="py-2 bg-gray-200 w-full rounded-full shadow-sm shadow-black/50">Expand</button>
-                <button id="clear" type="button" class="py-2 bg-red-200 w-full rounded-full shadow-sm shadow-black/50">Clear LocalStorage</button>
             </form>
         </div>
     </div>

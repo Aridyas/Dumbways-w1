@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body class="bg-gray-300">
+
+<header>
+    <nav class="flex flex-row justify-between w-full h-auto py-4 px-8 bg-white">
+        <div class="flex justify-center items-center gap-2 ">
+            <i data-lucide="hexagon"></i>
+            <h2 class="text-xl">HEXAGON</h2>
+        </div>
+    </nav>
+</header>
+
+<main class="flex w-screen min-h-screen p-10">
+
+    <!--detail-->
+    <div id="details" class="flex flex-row items-center w-full bg-white rounded-2xl p-10 gap-10">
+        {{#if project.image}}
+            <img src="{{project.image}}" class="w-2/5 shrink-0 h-full shadow-md shadow-black/40 object-cover overflow-hidden rounded-xl">
+        {{else}}
+            <div class="flex justify-center items-center h-full w-2/5 shadow-md shadow-black/40 bg-gray-200 rounded-xl">
+                <h2 class="text-2xl text-gray-600">No image provided</h2>
+            </div>
+        {{/if}}
+        <div class="flex flex-col justify-between h-full w-3/5 bg-white shadow-md shadow-black/40 rounded-xl p-8">
+            <div class="flex flex-col gap-2">
+                <h2 class="text-4xl">{{project.name}}</h2>
+                <p class="break-words text-xl">{{project.desc}}</p>
+            </div>
+            <div class="flex flex-col gap-2">
+                <div class="flex flex-row flex-wrap gap-1">
+                    {{#each project.techs}}
+                        <div class="p-1 bg-gray-200 rounded shadow-sm shadow-black/40"><i data-lucide="{{this}}" class="h-10 w-10"></i></div>
+                    {{/each}}
+                </div>
+                <p class="text-xl text-gray-600">Start: {{project.startFormatted}} End: {{project.endFormatted}}</p>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+    lucide.createIcons();
+</script>
+</body>
+</html>

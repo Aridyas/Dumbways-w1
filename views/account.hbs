@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body class="bg-gray-300">
+
+<header>
+    <nav class="flex flex-row justify-between w-full h-auto py-4 px-8 bg-white">
+        <div class="flex justify-center items-center gap-2 ">
+            <i data-lucide="hexagon"></i>
+            <h2 class="text-xl">HEXAGON</h2>
+        </div>
+        <div>
+            <button onclick="location.href='/home'" class="flex-1 bg-black rounded-full text-white py-2 px-5">Home</button>
+        </div>
+    </nav>
+</header>
+
+<main class="flex w-screen min-h-screen p-10 gap-5">
+    <div class="flex flex-col items-center bg-white w-3/5 rounded-2xl p-10 gap-5">
+        <h2 class="text-4xl">Projects</h2>
+        <div class="flex grid grid-cols-3 grid-flow-row flex-row gap-3">
+            {{#each projects}}
+                <div class="flex flex-col bg-white shadow-md shadow-black/40 p-3 rounded-xl gap-2 text-sm w-60 h-96">
+                    {{#if image}}
+                        <img src="{{this.image}}" class="w-full h-40 object-cover overflow-hidden rounded-lg">
+                    {{else}}
+                        <div class="flex w-full h-40 justify-center items-center object-cover rounded-lg bg-gray-200">
+                            <h2 class="text-gray-600">No image provided</h2>
+                        </div>
+                    {{/if}}
+
+                    <div class="flex flex-col">
+                        <p class="text-lg font-bold truncate">{{this.name}}</p>
+                        <p class="text-md font-bold truncate text-gray-400">@{{this.user.name}}</p>
+                    </div>
+
+                    <div class="flex flex-row flex-wrap gap-1">
+                        {{#each this.techs}}
+                            <div class="p-1 bg-gray-200 rounded shadow-sm shadow-black/40"><i data-lucide="{{this}}"></i></div>
+                        {{/each}}
+                    </div>
+
+                    <p class="text-xs text-gray-600">Start: {{this.startFormatted}} End: {{this.endFormatted}}</p>
+
+                    <button onclick="location.href='/project/{{this.id}}'" class="flex-1 bg-black rounded-xl text-white p-2">Details</button>
+                    <div class="flex flex-row w-full gap-1">
+                        <button onclick="toggleEdit({{this.id}})" class="flex-1 bg-black rounded-xl text-white p-2">Edit</button>
+                        <button onclick="toggleConfirm({{this.id}})" class="flex-1 bg-black rounded-xl text-white p-2">Delete</button>
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+    <div class="flex flex-col items-center bg-white w-2/5 rounded-2xl p-10 gap-5">
+        <h2 class="text-4xl">Account</h2>
+        <div class="flex flex-col justify-between h-full">
+            <div class="flex flex-col ">
+                <p>{{account.name}}</p>
+                <p>{{account.email}}</p>
+            </div>
+            <div>
+                <p>Created At</p>
+                <p>{{account.createdAt}}</p>
+            </div>
+        </div>
+    </div>
+
+    <!--edit-->
+    <div id="editPopup" class="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center hidden">
+        <div class="bg-white rounded-3xl shadow-lg p-8 w-[450px] relative flex flex-col gap-4">
+            <button onclick="toggleEdit()" class="absolute top-4 right-4 p-2 rounded-full bg-gray-300 hover:bg-gray-400 transition">
+                <i data-lucide="x"></i>
+            </button>
+
+            <h2 class="text-xl font-semibold">Edit Project</h2>
+
+            <form id="editForm" method="post">
+                <input id="editName" name="name" class="p-2 bg-gray-200 rounded-lg" />
+                <input id="editStart" type="date" name="dateStart" class="p-2 bg-gray-200 rounded-lg" />
+                <input id="editEnd" type="date" name="dateEnd" class="p-2 bg-gray-200 rounded-lg" />
+                <textarea id="editDesc" name="desc" class="p-2 bg-gray-200 rounded-lg min-h-20"></textarea>
+
+                <button type="submit" class="p-3 bg-black text-white rounded-xl">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <!--delete-->
+    <div id="removalConfirm" class="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm hidden">
+        <div class="flex flex-col justify-center items-center bg-white rounded-3xl shadow-lg p-8 flex gap-8 max-w-4xl w-[30%] relative">
+            <h2 class="text-3xl">Remove Project?</h2>
+            <div class="flex gap-2">
+                <form id="deleteForm" method="post"> 
+                    <button type="submit" class="py-3 px-5 bg-black text-white rounded-full">Confirm</button>
+                </form>
+                <button onclick="toggleConfirm()" class="py-3 px-5 bg-black text-white rounded-full">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+  lucide.createIcons();
+</script>
+<script>
+
+    let editId = null;
+    let removeId = null;
+
+
+    function toggleEdit(id) {
+        document.getElementById('editPopup').classList.toggle('hidden');
+        editId = id;
+        document.getElementById('editForm').action = `/project/edit/${id}`;
+    }
+
+    function toggleConfirm(id) {
+        document.getElementById('removalConfirm').classList.toggle('hidden');
+        removeId = id;
+        document.getElementById('deleteForm').action = `/project/delete/${id}`;
+    }
+
+</script>
+</body>
+</html>

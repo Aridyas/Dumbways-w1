@@ -1,59 +1,61 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+    // This is your Prisma schema file,
+    // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+    // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+    // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
-generator client {
-  provider = "prisma-client-js"
-  moduleFormat = "esm"
-}
+    generator client {
+      provider = "prisma-client-js"
+      moduleFormat = "esm"
+    }
 
-datasource db {
-  provider = "postgresql"
-}
+    datasource db {
+      provider = "postgresql"
+    }
 
-model user {
-  id        Int           @id @default(autoincrement())
-  name      String    
-  email     String        @unique
-  password  String
-  projects  userProject[]
-  createdAt DateTime  @default(now())
-}
+    model user {
+      id            Int             @id @default(autoincrement())
+      name          String    
+      email         String          @unique
+      private       Boolean         @default(false)
+      password      String
+      projects      userProject[]
+      createdAt     DateTime        @default(now())
+    }
 
-model userProject {
-  id        Int       @id @default(autoincrement())
-  userId    Int
-  user      user      @relation(fields: [userId], references: [id])
-  name      String
-  dateStart     DateTime
-  dateEnd       DateTime
-  image     String?
-  desc      String?
-  createdAt DateTime  @default(now())
+    model userProject {
+      id            Int             @id @default(autoincrement())
+      userId        Int
+      user          user            @relation(fields: [userId], references: [id])
+      name          String
+      private       Boolean         @default(false)
+      dateStart     DateTime
+      dateEnd       DateTime
+      image         String?
+      desc          String?
+      createdAt     DateTime        @default(now())
 
-  projectTechs projectTechs[]
-}
+      projectTechs projectTechs[]
+    }
 
-model techs {
-  id Int @id @default(autoincrement())
-  value String @unique
+    model techs {
+      id            Int             @id @default(autoincrement())
+      value         String          @unique
 
-  projectTechs projectTechs[]
-}
+      projectTechs projectTechs[] 
+    }
 
-model projectTechs {
-  id Int @id @default(autoincrement())
+    model projectTechs {
+      id            Int             @id @default(autoincrement())
 
-  projectId Int
-  project userProject @relation(fields: [projectId], references: [id])
+      projectId     Int
+      project       userProject     @relation(fields: [projectId], references: [id])
 
-  techId Int
-  techs techs @relation(fields: [techId], references: [id])
+      techId        Int
+      techs         techs           @relation(fields: [techId], references: [id])
 
-  @@unique([projectId, techId])
-}
+      @@unique([projectId, techId])
+    }
 
 
 

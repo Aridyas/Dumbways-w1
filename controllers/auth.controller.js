@@ -24,3 +24,15 @@ export async function login(req, res) {
 
   res.redirect("/add");
 }
+
+export async function updateUser(req, res) {
+  const userId = req.user.id;
+
+  await authService.updateAccount(
+    userId,
+    req.body,
+    req.file
+  );
+
+  res.redirect(`/account/${userId}`);
+}

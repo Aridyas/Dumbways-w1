@@ -19,27 +19,33 @@ export async function addProject (req, res) {
     await projectService.createProject({
         body: req.body,
         file: req.file,
-        userId: req.userId
+        userId: req.user.id
     })
     res.redirect('/home')
 }
 
 export async function getAccount(req, res) {
+  const profileId = Number(req.params.id);
+  const viewerId = req.user?.id;
+
   const [user, {projects}] = await Promise.all([
-    authService.getUserById(req.userId),
-    projectService.getProjectsByUser(req.userId)
+    authService.getUserById(profileId),
+    projectService.getProjectsByUser(profileId)
   ])
-  res.render("account", {user, projects});
+
+  const isOwner = viewerId === profileId;
+
+  res.render("account", {user, projects, isOwner});
 }
 
 export async function editProject(req, res) {
   await projectService.updateProject(req.params.id, req.body, req.userId);
-  res.redirect(`/account/${req.userName}`);
+  res.redirect(`/account/${Number(req.params.id)}`);
 }
 
 export async function deleteProject(req, res) {
   await projectService.deleteProject(Number(req.params.id));
-  res.redirect(`/account/${req.userName}`);
+  res.redirect(`/account/${Number(req.params.id)}`);
 }
 
 export async function filter(req, res) {

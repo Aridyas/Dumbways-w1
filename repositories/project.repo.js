@@ -2,6 +2,7 @@ import prisma from "../utils/client.js";
 
 export function findAll() {
     return prisma.userProject.findMany({
+        where: { private: false },
         include: {
             user: { select: { name: true } },
             projectTechs: { include: { techs: true } }
@@ -77,7 +78,7 @@ export async function deleteProject(id) {
     });
 }
 
-export async function filterProjects(includeTechs, excludeTechs) {
+export async function filterTechs(includeTechs, excludeTechs) {
     return prisma.userProject.findMany({
         where: {
             AND: [
@@ -90,16 +91,16 @@ export async function filterProjects(includeTechs, excludeTechs) {
                                 }
                             }
                         }
-                    }
+                    }   
                     : {},
                 decludeTechs.length
                     ? {
                         projectTechs: {
-                        none: {
-                            tech: {
-                            value: { in: excludeTechs }
+                            none: {
+                                tech: {
+                                value: { in: excludeTechs }
+                                }
                             }
-                        }
                         }
                     }
                     : {}

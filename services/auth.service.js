@@ -25,3 +25,11 @@ export async function login({ email, password }) {
 export async function getUserById(userId) {
     return userRepo.findById(userId);
 }
+
+export async function updateAccount( id, body, file ) {
+    await userRepo.updateProfile({
+        id,
+        body,
+        file
+    });
+}

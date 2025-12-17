@@ -17,3 +17,24 @@ export function findById(id) {
         where: { id }
     })
 }
+
+export function updateProfile(data) {
+    const updateData = {};
+
+    if (data.body?.name !== undefined) {
+        updateData.name = data.body.name;
+    }
+
+    if (data.body?.email !== undefined) {
+        updateData.email = data.body.email;
+    }
+
+    if (data.file) {
+        updateData.profile = "/profiles/" + data.file.filename;
+    }
+
+    return prisma.user.update({
+        where: { id: data.id },
+        data: updateData
+    });
+}

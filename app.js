@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 
 import authRoutes from "./routes/auth.routes.js";
 import projectRoutes from "./routes/project.routes.js";
+import Auth from "./middleware/authentication.middleware.js"
 
 const app = express();
 
@@ -17,8 +18,16 @@ app.set("views", "./views");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
+app.use("/profiles", express.static("profiles"));
 app.use("/uploads", express.static("uploads"));
 app.use(express.static("public"));
+app.use(Auth);
+
+//data
+app.use((req, res, next) => {
+  res.locals.user = req.user || null;
+  next();
+});
 
 /* routes */
 app.use(authRoutes);
